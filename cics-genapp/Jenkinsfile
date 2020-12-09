@@ -60,6 +60,8 @@ pipeline {
 
     stages {
 //* ------------------------------------------------------------------------------------------------
+       echo "Repository: ${dbbGitRepo} - branch: ${dbbGitBranch} "
+
         stage('Git Clone/Refresh') {
             agent { label zOsAgentLabel }
             steps {
