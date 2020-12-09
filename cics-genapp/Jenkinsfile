@@ -23,7 +23,7 @@ def dbbGroovyzOpts= ''
 def dbbBuildExtraOpts= ''
 
 // Artifactory
-def artiCredentialsId = 'artifactory_id'
+// def artiCredentialsId = 'artifactory_id'
 
 
 // UCD
@@ -187,8 +187,8 @@ pipeline {
                 script {
                     node( zOsAgentLabel ) {
                         if ( hasBuildFiles ) {
-                            def artiUrl = getArtifactoruUrl(env.ARTIFACTORY_URL)
-                            def repositoryPath = env.ARTIFACTORY_REPO_PATH
+  //                          def artiUrl = getArtifactoruUrl(env.ARTIFACTORY_URL)
+  //                          def repositoryPath = env.ARTIFACTORY_REPO_PATH
                             def ucdBuztool = env.UCD_BUZTOOL_PATH
                             BUILD_OUTPUT_FOLDER = sh (script: "ls ${WORKSPACE}/BUILD-${BUILD_NUMBER}", returnStdout: true).trim()
                             dir("${WORKSPACE}/BUILD-${BUILD_NUMBER}/${BUILD_OUTPUT_FOLDER}") {
@@ -196,7 +196,7 @@ pipeline {
                                     writeFile file: "${WORKSPACE}/BUILD-${BUILD_NUMBER}/artifactoy.properties", encoding: "ibm-1047",
                                        text:"""password=$PASSWORD
 username=$USERNAME
-Repository_type=artifactory
+// Repository_type=artifactory
 repository=${repositoryPath}
 url=${artiUrl}
                                       """
