@@ -68,6 +68,7 @@ pipeline {
 
             agent { label zOsAgentLabel }
             steps {
+            echo "Clone from GitHub to Rocket Git on zOS"
             echo "Repository: ${dbbGitRepo} - branch: ${dbbGitBranch} "
                 script {
                     if ( verbose ) {
@@ -136,6 +137,7 @@ pipeline {
 //* ------------------------------------------------------------------------------------------------
         stage('DBB Build & UnitTest') {
             steps {
+                echo "Perform the Build and Unit Tests on required changes"
                 script{
                     def zUnitContents = []
                     node( zOsAgentLabel ) {
@@ -190,6 +192,7 @@ pipeline {
 //* ------------------------------------------------------------------------------------------------
         stage('UCD Package') {
             steps {
+                echo "Move the binaries created by build to UCD to be deployed"
                 script {
                     node( zOsAgentLabel ) {
                         if ( hasBuildFiles ) {
@@ -218,6 +221,7 @@ url=${artiUrl}
 //* ------------------------------------------------------------------------------------------------
         stage('UCD Deploy') {
             steps {
+                echo "Invoke UCD and wait for the deplyment to be completed"
                 script{
                     if ( hasBuildFiles ) {
                         script{
