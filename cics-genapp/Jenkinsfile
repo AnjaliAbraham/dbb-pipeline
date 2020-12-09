@@ -61,10 +61,10 @@ pipeline {
     stages {
 //* ------------------------------------------------------------------------------------------------
         stage('Git Clone/Refresh') {
-            echo "Repository: ${dbbGitRepo} - branch: ${dbbGitBranch} "
 
             agent { label zOsAgentLabel }
             steps {
+            echo "Repository: ${dbbGitRepo} - branch: ${dbbGitBranch} "
                 script {
                     if ( verbose ) {
                         echo sh(script: 'env|sort', returnStdout: true)
