@@ -209,27 +209,12 @@ pipeline {
                 script {
                     node( zOsAgentLabel ) {
                         if ( hasBuildFiles ) {
-  //                          def artiUrl = getArtifactoruUrl(env.ARTIFACTORY_URL)
-  //                          def repositoryPath = env.ARTIFACTORY_REPO_PATH
                             def ucdBuztool = env.UCD_BUZTOOL_PATH
-      // Regi - print UCD Buzztool path
-                    println "*REGI* UCD BUZTOOL_PATH : ${ucdBuztool} "
-
+ // Regi - print UCD Buzztool path
+         println "*REGI* UCD BUZTOOL_PATH : ${ucdBuztool} "
    BUILD_OUTPUT_FOLDER = sh (script: "ls ${WORKSPACE}/BUILD-${BUILD_NUMBER}", returnStdout: true).trim()
- // Regi removed artifactory
    dir("${WORKSPACE}/BUILD-${BUILD_NUMBER}/${BUILD_OUTPUT_FOLDER}") {
-    withCredentials([usernamePassword(credentialsId: artiCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    writeFile file: "${WORKSPACE}/BUILD-${BUILD_NUMBER}/artifactoy.properties", encoding: "ibm-1047",
-    text:"""password=$PASSWORD
-    username=$USERNAME
-    Repository_type=artifactory
-    repository=${repositoryPath}
-    url=${artiUrl}
-                                      """
-                                }
    println "*REGI* Push to UCD Code station"
- // Regi removed artifactory
- // sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb/Pipeline/CreateUCDComponentVersion/dbb-ucd-packaging.groovy --buztool ${ucdBuztool} --component ${ucdComponent} --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER}/${BUILD_OUTPUT_FOLDER} --artifactRepository ${WORKSPACE}/BUILD-${BUILD_NUMBER}/artifactoy.properties"
     sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb/Pipeline/CreateUCDComponentVersion/dbb-ucd-packaging.groovy --buztool ${ucdBuztool} --component ${ucdComponent} --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER}/${BUILD_OUTPUT_FOLDER} "
                             }
                         }
