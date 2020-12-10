@@ -15,7 +15,7 @@ def dbbGitRepo = 'https://github.com/IBM/dbb.git'
 def dbbGitBranch = 'master'
 
 // DBB
-// ----------------------------- Build type
+// Regi ----------------------------- Build type
 //  -i: incremental
 //  -f: full
 //  -c: only changed source
@@ -69,7 +69,6 @@ pipeline {
             agent { label zOsAgentLabel }
             steps {
             echo "Clone from GitHub to Rocket Git on zOS"
-            echo "Repository: ${dbbGitRepo} - branch: ${dbbGitBranch} "
                 script {
                     if ( verbose ) {
                         echo sh(script: 'env|sort', returnStdout: true)
@@ -81,6 +80,7 @@ pipeline {
                         error("DBB_URL is not defined !!!")
                     if ( env.DBB_HLQ == null )
                         error("DBB_HLQ is not defined !!!")
+   // Regi - NO Artifactory
   //                  if ( env.ARTIFACTORY_URL == null )
   //                      error("ARTIFACTORY_URL is not defined !!!")
   //                  if ( env.ARTIFACTORY_REPO_PATH == null )
@@ -104,6 +104,8 @@ pipeline {
                                                 userRemoteConfigs: [[
                                                                      url: srcGitRepo,
                                                                      ]]])
+ // Regi - print repo and branch
+                    println "repo:${srcGitRepo} branch: ${srcGitBranch}"
                     }
 
                     dir("dbb-zappbuild") {
