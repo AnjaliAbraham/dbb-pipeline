@@ -225,6 +225,7 @@ pipeline {
         stage('UCD Deploy') {
             steps {
                 echo "Invoke UCD and wait for the deplyment to be completed"
+   println "*REGI* Deploy Appl: ${ucdApplication} Process: ${ucdProcess}  to Environmnet :${ucdEnv}  on CICSTS53"
                 script{
                     if ( hasBuildFiles ) {
                         script{
