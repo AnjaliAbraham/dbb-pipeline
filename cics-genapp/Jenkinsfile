@@ -105,7 +105,7 @@ pipeline {
                                                                      url: srcGitRepo,
                                                                      ]]])
  // Regi - print repo and branch
-                    println "repo:${srcGitRepo} branch: ${srcGitBranch}"
+                    println "*REGI* repo:${srcGitRepo} branch: ${srcGitBranch}"
                     }
 
                     dir("dbb-zappbuild") {
