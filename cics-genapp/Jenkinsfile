@@ -22,13 +22,14 @@ def dbbGitBranch = 'master'
 def dbbHome=null
 def dbbUrl=null
 def dbbHlq=null
-// def dbbBuildType='-i'
-def dbbBuildType='-f'
+def dbbBuildType='-i'
+// def dbbBuildType='-f'
 def dbbGroovyzOpts= ''
 def dbbBuildExtraOpts= ''
 
 // Artifactory
 // def artiCredentialsId = 'artifactory_id'
+def artiCredentialsId = null
 
 // UCD
 def ucdApplication = 'GenApp_CICS'
@@ -155,6 +156,9 @@ pipeline {
                         dbbHome = env.DBB_HOME
                         dbbUrl = env.DBB_URL
                         dbbHlq = env.DBB_HLQ
+   // Regi - print HLQ and DBB Home
+                    println "*REGI* HLQ:${dbbHlq} DBB Home: ${dbbHome}"
+
                         sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb-zappbuild/build.groovy --logEncoding UTF-8 -w ${WORKSPACE} --application cics-genapp --sourceDir ${WORKSPACE}/cics-genapp  --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER} --hlq ${dbbHlq}.GENAPP --url $dbbUrl -pw ADMIN $dbbBuildType $buildVerbose $dbbBuildExtraOpts"
                         def files = findFiles(glob: "**BUILD-${BUILD_NUMBER}/**/buildList.txt")
                         // Do not enter into some steps if nothing in the build list
@@ -201,6 +205,9 @@ pipeline {
   //                          def artiUrl = getArtifactoruUrl(env.ARTIFACTORY_URL)
   //                          def repositoryPath = env.ARTIFACTORY_REPO_PATH
                             def ucdBuztool = env.UCD_BUZTOOL_PATH
+      // Regi - print UCD Buzztool path
+                    println "*REGI* UCD BUZTOOL_PATH : ${ucdBuztool} "
+
                             BUILD_OUTPUT_FOLDER = sh (script: "ls ${WORKSPACE}/BUILD-${BUILD_NUMBER}", returnStdout: true).trim()
                             dir("${WORKSPACE}/BUILD-${BUILD_NUMBER}/${BUILD_OUTPUT_FOLDER}") {
                                 withCredentials([usernamePassword(credentialsId: artiCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
@@ -212,7 +219,8 @@ repository=${repositoryPath}
 url=${artiUrl}
                                       """
                                 }
-                                sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb/Pipeline/CreateUCDComponentVersion/dbb-ucd-packaging.groovy --buztool ${ucdBuztool} --component ${ucdComponent} --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER}/${BUILD_OUTPUT_FOLDER} --artifactRepository ${WORKSPACE}/BUILD-${BUILD_NUMBER}/artifactoy.properties"
+   println "*REGI* Push to UCD Code station"
+  sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb/Pipeline/CreateUCDComponentVersion/dbb-ucd-packaging.groovy --buztool ${ucdBuztool} --component ${ucdComponent} --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER}/${BUILD_OUTPUT_FOLDER} --artifactRepository ${WORKSPACE}/BUILD-${BUILD_NUMBER}/artifactoy.properties"
                             }
                         }
                     }
