@@ -43,8 +43,11 @@ def verbose = env.VERBOSE && env.VERBOSE == 'true' ? true : false
 
 // Private
 def hasBuildFiles = true
-def buildVerbose = verbose ? '-v' : ''
-
+// def buildVerbose = verbose ? '-v' : ''
+// ---------------------------Verbose
+// no verbose --> def buildVerbose = ''
+def buildVerbose = '-v'
+// ---------------------------Verbose
 @NonCPS
 String getArtifactoruUrl(String artiUrl) {
     // UCD always add /artifactory
@@ -159,7 +162,9 @@ pipeline {
    // Regi - print HLQ and DBB Home
       println "*REGI* HLQ:${dbbHlq} DBB Home: ${dbbHome}"
 
-                        sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb-zappbuild/build.groovy --logEncoding UTF-8 -w ${WORKSPACE} --application cics-genapp --sourceDir ${WORKSPACE}/cics-genapp  --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER} --hlq ${dbbHlq}.GENAPP --url $dbbUrl -pw ADMIN $dbbBuildType $buildVerbose $dbbBuildExtraOpts"
+         // Regi - force Web DBB pwd and Id here instead of https://github.com/IBM/dbb-zappbuild/blob/development/build-conf/build.properties
+  // sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb-zappbuild/build.groovy --logEncoding UTF-8 -w ${WORKSPACE} --application cics-genapp --sourceDir ${WORKSPACE}/cics-genapp  --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER} --hlq ${dbbHlq}.GENAPP --url $dbbUrl -pw ADMIN $dbbBuildType $buildVerbose $dbbBuildExtraOpts"
+     sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb-zappbuild/build.groovy --logEncoding UTF-8 -w ${WORKSPACE} --application cics-genapp --sourceDir ${WORKSPACE}/cics-genapp  --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER} --hlq ${dbbHlq}.GENAPP --url $dbbUrl -pw ADMIN $dbbBuildType $buildVerbose $dbbBuildExtraOpts"
                         def files = findFiles(glob: "**BUILD-${BUILD_NUMBER}/**/buildList.txt")
      // Regi - print files
       println "*REGI* files:${files} "
@@ -210,19 +215,22 @@ pipeline {
       // Regi - print UCD Buzztool path
                     println "*REGI* UCD BUZTOOL_PATH : ${ucdBuztool} "
 
-                            BUILD_OUTPUT_FOLDER = sh (script: "ls ${WORKSPACE}/BUILD-${BUILD_NUMBER}", returnStdout: true).trim()
-                            dir("${WORKSPACE}/BUILD-${BUILD_NUMBER}/${BUILD_OUTPUT_FOLDER}") {
-                                withCredentials([usernamePassword(credentialsId: artiCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                                    writeFile file: "${WORKSPACE}/BUILD-${BUILD_NUMBER}/artifactoy.properties", encoding: "ibm-1047",
-                                       text:"""password=$PASSWORD
+   BUILD_OUTPUT_FOLDER = sh (script: "ls ${WORKSPACE}/BUILD-${BUILD_NUMBER}", returnStdout: true).trim()
+ // Regi removed artifactory
+ //  dir("${WORKSPACE}/BUILD-${BUILD_NUMBER}/${BUILD_OUTPUT_FOLDER}") {
+ //   withCredentials([usernamePassword(credentialsId: artiCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+ //   writeFile file: "${WORKSPACE}/BUILD-${BUILD_NUMBER}/artifactoy.properties", encoding: "ibm-1047",
+ //   text:"""password=$PASSWORD
 username=$USERNAME
 // Repository_type=artifactory
-repository=${repositoryPath}
-url=${artiUrl}
+// repository=${repositoryPath}
+// url=${artiUrl}
                                       """
                                 }
    println "*REGI* Push to UCD Code station"
-  sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb/Pipeline/CreateUCDComponentVersion/dbb-ucd-packaging.groovy --buztool ${ucdBuztool} --component ${ucdComponent} --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER}/${BUILD_OUTPUT_FOLDER} --artifactRepository ${WORKSPACE}/BUILD-${BUILD_NUMBER}/artifactoy.properties"
+ // Regi removed artifactory
+ // sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb/Pipeline/CreateUCDComponentVersion/dbb-ucd-packaging.groovy --buztool ${ucdBuztool} --component ${ucdComponent} --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER}/${BUILD_OUTPUT_FOLDER} --artifactRepository ${WORKSPACE}/BUILD-${BUILD_NUMBER}/artifactoy.properties"
+  sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb/Pipeline/CreateUCDComponentVersion/dbb-ucd-packaging.groovy --buztool ${ucdBuztool} --component ${ucdComponent} --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER}/${BUILD_OUTPUT_FOLDER} "
                             }
                         }
                     }

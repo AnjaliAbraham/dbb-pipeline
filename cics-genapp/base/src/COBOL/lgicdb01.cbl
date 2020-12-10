@@ -1,6 +1,6 @@
       ******************************************************************
       * Changed by Regi to demonstrate a BUG introduced
-      * on  July 23 2020  19:07
+      * on  Dec 10 2020  09:13
       *                    Inquire Customer      TRX SSC1
       * Select  customer details from DB2 table
       *  Look for %bug to introdude a  bug
