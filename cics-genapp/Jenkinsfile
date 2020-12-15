@@ -1,7 +1,6 @@
 // Updated by Regi
-// *Dec 15, 2020 - Used physical ip for github.com
 // * Dec 09 2020  First Try https://github.com/RegiBrazil/dbb-pipeline.git
-    println "**Regi IF using VPN the gitHost must be physical IP"
+    println "**Regi IF using VPN it FAILS"
  // *************************************************************//
 // Agent labels
 def zOsAgentLabel = env.ZOS_AGENT_LABEL ? env.ZOS_AGENT_LABEL : 'e2e-pipeline'
@@ -11,12 +10,9 @@ def linuxAgent = 'master'
 // My Forked repo and branch are below: srcGitRepo  and srcGitBranch
 def srcGitRepo =  null
 def srcGitBranch = null
-// when using vpn this may fail.  use below: def zAppBuildGitRepo = 'https://github.com/IBM/dbb-zappbuild.git'
-// def zAppBuildGitRepo = 'https://github.com/IBM/dbb-zappbuild.git'
-def zAppBuildGitRepo = 'https://140.82.114.4/IBM/dbb-zappbuild.git'
+def zAppBuildGitRepo = 'https://github.com/IBM/dbb-zappbuild.git'
 def zAppBuildGitBranch = 'development' // Some important issues are not yet merged into master.
-//  def dbbGitRepo = 'https://github.com/IBM/dbb.git'
-def dbbGitRepo = 'https://140.82.114.4/IBM/dbb.git'
+def dbbGitRepo = 'https://github.com/IBM/dbb.git'
 def dbbGitBranch = 'master'
 
 // DBB
