@@ -1,6 +1,6 @@
       ******************************************************************
-      * Changed by Regi to demonstrate a BUG introduced
-      * on  Dec 10 2020  14:34
+      * Regi to demonstrate a BUG introduced
+      * LGICDB01 changed on  Dec 15 2020  11:01
       *                    Inquire Customer      TRX SSC1
       * Select  customer details from DB2 table
       *  Look for %bug to introdude a  bug

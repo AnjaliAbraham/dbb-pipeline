@@ -7,6 +7,7 @@ def zOsAgentLabel = env.ZOS_AGENT_LABEL ? env.ZOS_AGENT_LABEL : 'e2e-pipeline'
 def linuxAgent = 'master'
 
 // GIT repositories
+// My Forked repo and branch are below: srcGitRepo  and srcGitBranch
 def srcGitRepo =  null
 def srcGitBranch = null
 def zAppBuildGitRepo = 'https://github.com/IBM/dbb-zappbuild.git'
@@ -45,8 +46,8 @@ def verbose = env.VERBOSE && env.VERBOSE == 'true' ? true : false
 def hasBuildFiles = true
 // def buildVerbose = verbose ? '-v' : ''
 // ---------------------------Verbose
-// no verbose --> def buildVerbose = ''
-def buildVerbose = '-v'
+def buildVerbose = ''
+// verbose --> def buildVerbose = '-v'
 // ---------------------------Verbose
 @NonCPS
 String getArtifactoruUrl(String artiUrl) {
@@ -94,6 +95,7 @@ pipeline {
 
                     dir('cics-genapp') {
                         sh(script: 'rm -f .git/info/sparse-checkout', returnStdout: true)
+// My Forked repo and branch are below: srcGitRepo  and srcGitBranch
                         srcGitRepo = scm.getUserRemoteConfigs()[0].getUrl()
                         srcGitBranch = scm.branches[0].name
                         def scmVars = null
@@ -159,11 +161,11 @@ pipeline {
                         dbbHome = env.DBB_HOME
                         dbbUrl = env.DBB_URL
                         dbbHlq = env.DBB_HLQ
-   // Regi - print HLQ and DBB Home
+  // Regi - print HLQ and DBB Home
       println "*REGI* HLQ:${dbbHlq} DBB Home: ${dbbHome}"
+ // Regi - print the path where the Jenkins workspace is created
+      println "*REGI* Jenkins workspace created at: ${WORKSPACE} "
 
-         // Regi - force Web DBB pwd and Id here instead of https://github.com/IBM/dbb-zappbuild/blob/development/build-conf/build.properties
-  // sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb-zappbuild/build.groovy --logEncoding UTF-8 -w ${WORKSPACE} --application cics-genapp --sourceDir ${WORKSPACE}/cics-genapp  --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER} --hlq ${dbbHlq}.GENAPP --url $dbbUrl -pw ADMIN $dbbBuildType $buildVerbose $dbbBuildExtraOpts"
      sh "$dbbHome/bin/groovyz $dbbGroovyzOpts ${WORKSPACE}/dbb-zappbuild/build.groovy --logEncoding UTF-8 -w ${WORKSPACE} --application cics-genapp --sourceDir ${WORKSPACE}/cics-genapp  --workDir ${WORKSPACE}/BUILD-${BUILD_NUMBER} --hlq ${dbbHlq}.GENAPP --url $dbbUrl -pw ADMIN $dbbBuildType $buildVerbose $dbbBuildExtraOpts"
                         def files = findFiles(glob: "**BUILD-${BUILD_NUMBER}/**/buildList.txt")
                         // Do not enter into some steps if nothing in the build list
@@ -171,7 +173,7 @@ pipeline {
 
                         def zUnitFiles = findFiles(glob: "**BUILD-${BUILD_NUMBER}/**/*.zunit.report.log")
                         zUnitFiles.each { zUnit ->
-                            println "Process zUnit: $zUnit.path"
+      println "Process zUnit: $zUnit.path"
                             def zUnitContent = readFile file: zUnit.path
                             zUnitContents << zUnitContent
                         }
