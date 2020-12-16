@@ -1,5 +1,4 @@
 // Updated by Regi
-// * Dec 16 2020  using 140.82.114.3 for github.com
 // * Dec 09 2020  using https://github.com/RegiBrazil/dbb-pipeline.git
     println "**Regi IF using VPN it FAILS"
  // *************************************************************//
@@ -11,11 +10,9 @@ def linuxAgent = 'master'
 // My Forked repo and branch are below: srcGitRepo  and srcGitBranch
 def srcGitRepo =  null
 def srcGitBranch = null
-// def zAppBuildGitRepo = 'https://github.com/IBM/dbb-zappbuild.git'
-def zAppBuildGitRepo = 'https://140.82.114.3/IBM/dbb-zappbuild.git'
+def zAppBuildGitRepo = 'https://github.com/IBM/dbb-zappbuild.git'
 def zAppBuildGitBranch = 'development' // Some important issues are not yet merged into master.
-// def dbbGitRepo = 'https://github.com/IBM/dbb.git'
-def dbbGitRepo = 'https://140.82.114.3/IBM/dbb.git'
+def dbbGitRepo = 'https://github.com/IBM/dbb.git'
 def dbbGitBranch = 'master'
 
 // DBB
