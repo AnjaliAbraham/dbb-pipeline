@@ -1,7 +1,8 @@
       ******************************************************************
       * Regi to demonstrate a BUG introduced
       *LGICDB01 changed on  Dec 17 2020  13:33
-      *                    Inquire Customer      TRX SSC1
+      *   Inquire Customer      TRX SSC1
+      * first prog invoked is LGICUS01
       * Select  customer details from DB2 table
       *  Look for %bug to introdude a  bug
       ******************************************************************

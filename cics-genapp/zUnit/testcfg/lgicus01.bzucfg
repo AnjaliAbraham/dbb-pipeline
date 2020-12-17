@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<runner:RunnerConfiguration xmlns:runner="http://www.ibm.com/zUnit/3.0.0.0/TestRunner" id="0dca87d8-e6a4-4417-a94a-1eb8ba592a1d">
+  <runner:options contOnTestCaseError="false" contOnTestCaseFail="true" contOnTestError="false" contOnTestFail="true"/>
+  <runner:testCase moduleName="TLGICUS0">
+    <test name="TEST3" entry="TEST_TEST3" type="CICS" init="BZU_INIT" term="BZU_TERM" program="LGICUS01" commarea="32500" skipTest="false" resetFile="true" stubCall="true" dummy="false"/>
+  </runner:testCase>
+  <runner:playback moduleName="LGICUS01">
+    <playbackFile name="&lt;HLQ>.ZUNIT.PB.LGICUS01" localName="lgicus01.plbck"/>
+  </runner:playback>
+  <runner:fileAttributes hlqDdName="AZUHLQ"/>
+</runner:RunnerConfiguration>
