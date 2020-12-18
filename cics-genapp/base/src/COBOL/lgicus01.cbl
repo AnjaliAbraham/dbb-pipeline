@@ -1,6 +1,6 @@
       ******************************************************************
       *                    Inquire Customer                            *
-      *  Changed Dec 18, 11:38
+      *  Changed Dec 18, 11:40
       *   To obtain Customer's details from database.                  *
       *                                                                *
       * Customer Inquire Business logic                                *
