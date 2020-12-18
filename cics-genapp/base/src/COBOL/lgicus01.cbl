@@ -1,10 +1,9 @@
       ******************************************************************
       *                    Inquire Customer                            *
-      *  Changed Dec 18, 09:37
+      *  Changed Dec 18, 11:38
       *   To obtain Customer's details from database.                  *
       *                                                                *
       * Customer Inquire Business logic                                *
-      * on July 06  2020  20:58
       ******************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID. LGICUS01.
